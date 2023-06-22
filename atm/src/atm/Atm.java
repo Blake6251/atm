@@ -69,7 +69,7 @@ public class Atm {
 			if (select == JOIN) {
 				userManager.joinUser();
 			} else if (select == LEAVE) {
-				userManager.leaveUser();
+				userManager.leaveUser( );
 //			} else if (select == LOGIN) {
 //				userManager.loginUser();
 //			} else if (select == LOGOUT) {
