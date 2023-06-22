@@ -53,8 +53,8 @@ public class UserManager {
 		return dupl;
 	}
 	
-	public void leaveUser() {
-		if(log!=-1) {
+	public void leaveUser(int userCode) {
+		if(userCode!=-1) {
 			System.out.println("password 입력 : ");
 			String password = Atm.scan.next();
 			

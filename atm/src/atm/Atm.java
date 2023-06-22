@@ -104,6 +104,7 @@ public class Atm {
 	}
 
 	private void printMenu() {
+		System.out.printf(" --- %s BANK ---\n", this.brandName);
 		System.out.println("1. 회원가입");
 		System.out.println("2. 회원탈퇴");
 		System.out.println("3. 로그인");
