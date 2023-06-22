@@ -47,20 +47,13 @@ public class UserManager {
 		}
 	}
 	public void leaveUser() {
+		
 		System.out.print("id : ");
 		String id = Atm.scanner.next();
 		System.out.print("password : ");
 		String password = Atm.scanner.next();
 		
-		int count =0;
-		for (User user : this.list) {
-		if(duplId(id) && duplPw(password)) {
-			int index = count;
-			this.list.remove(count);
-			break;
-		}
-		count++;
-		}
+
 	}
 	
 	public User getUserByUserCode(int log) {	// log : userCode
@@ -83,14 +76,7 @@ public class UserManager {
 		}
 		return dupl;
 	}
-	private boolean duplPw(String pw) {
-		boolean dupl = false;
-		for(User user : this.list) {
-			if(user.getPassword().equals(pw))
-				dupl = true;
-		}
-		return dupl;
-	}
+
 	
 	private int generateRandomCode() {
 		int code = 0;
