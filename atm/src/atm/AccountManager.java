@@ -11,4 +11,16 @@ public class AccountManager {
 	}
 	
 	private ArrayList<Account> list;
+	
+	private void createAcc() {
+
+	}
+
+	private void deleteAcc() {
+
+	}
+
+	private void viewBalanceAcc() {
+
+	}
 }

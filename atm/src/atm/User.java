@@ -43,27 +43,27 @@ public class User {
 	}
 
 	public int getUserCode() {
-		return userCode;
+		return this.userCode;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public String setPassword() {
-		return password;
+		return this.password;
 	}
 
 	public int getAge() {
-		return age;
+		return this.age;
 	}
 
 	public void setAge(int age) {
@@ -80,13 +80,15 @@ public class User {
 	
 	@Override
 	public String toString() {
-		String str = String.format("%s(%d) : %s%s\n", this.name, this.userCode, this.id, this.password)
+		String str = String.format("%s(%d) : %s%s\n", this.name, this.userCode, this.id, this.password);
 		
 		for(int i =0; i<this.accs.size(); i++) {
 			str += "\n" + this.accs.get(i);
 		}
 		return str;
 	}
+	
+	
 	
 	/*
 	 * name(userCode) : id/password
