@@ -1,121 +1,116 @@
 package atm;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class UserManager {
 	
-	private int log = -1;
-	private ArrayList<User> list;
 
-	// Design Patter (GOF) 설계 패턴 중,
-	// 싱글 인스턴스를 만드는
-	// Singleton Pattern을 사용해보자
-
-	// 1) 생성자를 숨긴다 private
-	private UserManager() {
-		list = new ArrayList<>();
-	}
-
-	// 2) 클래스 내부에서 단일 인스턴스를 생성해준다
+	
+	private AccountManager accManager = AccountManager.getInstance();
+	
+	private ArrayList<User> list = new ArrayList<User>();
+	
+	// Design Pattern (GOF) 설계 패턴 중, 
+	// 싱글 인스턴스를 만드는 
+	// Singleton Pattern 을 사용해보자 
+	
+	// 1) 생성자를 숨긴다 private 
+	private UserManager() {}
+	
+	// 2) 클래스 내부에서 단일 인스턴스를 생성해준다 
 	private static UserManager instance = new UserManager();
-
-	// 3) 외부에서 단일 인스턴스를 참조할 수 있도록 -> getter 제공
+	
+	// 3) 외부에서 단일 인스턴스를 참조할 수 있도록 -> getter 를 제공한다 
 	public static UserManager getInstance() {
 		return instance;
 	}
 	
+	private int index=-1;
+	
 	public void joinUser() {
 		int userCode = generateRandomCode();
-		System.out.println("name 입력 : ");
-		String name = Atm.scan.next();
-		System.out.println("id 입력 : ");
-		String id = Atm.scan.next();
-		System.out.println("password 입력 : ");
-		String password = Atm.scan.next();
-
-		if (!duplId(id)) {
+		System.out.print("id : ");
+		String id = Atm.scanner.next();
+		System.out.print("password : ");
+		String password = Atm.scanner.next();
+		System.out.print("name : ");
+		String name = Atm.scanner.next();
+		
+		if(!duplId(id)) {
 			User user = new User(userCode, name, id, password);
 			this.list.add(user);
+			accManager.createAccount(user);
+			
 			System.out.println("회원가입 완료");
 		} else {
-			System.out.println("중복되는 아이디입니다.");
+			System.err.println("중복되는 아이디 입니다.");
 		}
 	}
+	public void leaveUser() {
+		System.out.print("id : ");
+		String id = Atm.scanner.next();
+		System.out.print("password : ");
+		String password = Atm.scanner.next();
+		
+		int count =0;
+		for (User user : this.list) {
+		if(duplId(id) && duplPw(password)) {
+			int index = count;
+			this.list.remove(count);
+			break;
+		}
+		count++;
+		}
+	}
+	
+	public User getUserByUserCode(int log) {	// log : userCode
+		for(User user : this.list) {
+			if(user.getUserCode() == log)
+				return user;
+		}
+		return null;
+	}
+	
+	public ArrayList<User> getList() {
+		return (ArrayList<User>) this.list.clone();
+	}
+	
 	private boolean duplId(String id) {
 		boolean dupl = false;
-		for (User user : this.list) {
-			if (user.getId().equals(id)) {
+		for(User user : this.list) {
+			if(user.getId().equals(id))
 				dupl = true;
-			}
+		}
+		return dupl;
+	}
+	private boolean duplPw(String pw) {
+		boolean dupl = false;
+		for(User user : this.list) {
+			if(user.getPassword().equals(pw))
+				dupl = true;
 		}
 		return dupl;
 	}
 	
-	public void leaveUser(int userCode) {
-		if(userCode!=-1) {
-			System.out.println("password 입력 : ");
-			String password = Atm.scan.next();
-			
-			boolean dupl = false;
-			for (User user : this.list) {
-				if (user.getPassword() == password) {
-					dupl = true;
-				}
-				if (!dupl) {
-					break;
-				}
-			}
-			if(dupl) {
-				this.list.set(log, null);
-			}
-			
-		} else {
-			System.out.println("로그인 필요");
-		}
-	}
-
-	public void loginUser() {
-		if(log==-1) {
-			System.out.println("id 입력 : ");
-			String id = Atm.scan.next();
-			System.out.println("password 입력 : ");
-			String password = Atm.scan.next();
-			
-		}
-	}
-
-	public void logoutUser() {
-
-	}
-	
-
-
-	public ArrayList<User> getList() {
-		return (ArrayList<User>) this.list.clone();
-	}
-
-
-
 	private int generateRandomCode() {
 		int code = 0;
-		while (true) {
-			code = (int) (Math.random() * 9000) + 1000;
-
-			boolean dupl = false;
-				for (User user : this.list) {
-					if (user.getUserCode() == code) {
-						dupl = true;
-					}
-				}
-				if (!dupl) {
-					break;
-				}
+		
+		while(true) {
+			code = (int)(Math.random() * 9000) + 1000;
 			
+			boolean dupl = false;
+			for(User user : this.list) {
+				if(user.getUserCode() == code) 
+					dupl = true;
+			}
+			
+			if(!dupl)
+				break;
 		}
-
+		
 		return code;
 	}
+
+
 
 }
