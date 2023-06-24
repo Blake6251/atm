@@ -88,16 +88,16 @@ public class Atm {
 				userManager.joinUser();
 			else if(select == LEAVE)
 				userManager.leaveUser();
-//			else if(select == LOGIN)
-//				userManager.loginUser();
-//			else if(select == LOGOUT)
-//				userManager.looutUser();
+			else if(select == LOGIN)
+				userManager.loginUser();
+			else if(select == LOGOUT)
+				userManager.logoutUser();
 			else if(select == CREATE_ACC)
-				accManager.createAccount(userManager.getUserByUserCode(this.log));
-//			else if(select == DELETE_ACC)
-//				accManager.deleteAcc();
-//			else if(select == VIEW_BALANCE)
-//				accManager.viewBalance();
+				accManager.createAccount(userManager.getUserByUserCode(userManager.log));
+			else if(select == DELETE_ACC)
+				accManager.deleteAcc(userManager.getUserByUserCode(userManager.log));
+			else if(select == VIEW_BALANCE)
+				accManager.viewBalance(userManager.getUserByUserCode(userManager.log));
 //			else if(select == INPUT_MONEY)
 //				accManager.inputMoney();
 //			else if(select == OUT_MONEY)

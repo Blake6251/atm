@@ -4,12 +4,6 @@ import java.util.ArrayList;
 
 public class UserManager {
 	
-
-	
-	private AccountManager accManager = AccountManager.getInstance();
-	
-	private ArrayList<User> list = new ArrayList<User>();
-	
 	// Design Pattern (GOF) 설계 패턴 중, 
 	// 싱글 인스턴스를 만드는 
 	// Singleton Pattern 을 사용해보자 
@@ -24,8 +18,15 @@ public class UserManager {
 	public static UserManager getInstance() {
 		return instance;
 	}
+	private ArrayList<User> list = new ArrayList<User>();
 	
-	private int index=-1;
+	private AccountManager accManager = AccountManager.getInstance();
+	
+	// 중복 확인용
+	private int idx=-1;
+	
+	// 로그인 확인용
+	public int log = -1;
 	
 	public void joinUser() {
 		int userCode = generateRandomCode();
@@ -45,7 +46,9 @@ public class UserManager {
 		} else {
 			System.err.println("중복되는 아이디 입니다.");
 		}
+		System.out.println(list.size());
 	}
+	//회원 탈퇴
 	public void leaveUser() {
 		
 		System.out.print("id : ");
@@ -53,9 +56,48 @@ public class UserManager {
 		System.out.print("password : ");
 		String password = Atm.scanner.next();
 		
+		for(int i = 0; i<list.size(); i++) {
+			if(id.equals(list.get(i).getId())&&password.equals(list.get(i).getPassword())) {
+				idx = i;
+			}
+		}
+		if(idx!=-1) {
+			list.remove(idx);
+			idx=-1;
+		} else {
+			System.err.println("아이디 비밀번호 불일치");
+		}
+	}
+	// 로그인
+	public void loginUser() {
+		System.out.print("id : ");
+		String id = Atm.scanner.next();
+		System.out.print("password : ");
+		String password = Atm.scanner.next();
+		
+		for(int i = 0; i<list.size(); i++) {
+			if(id.equals(list.get(i).getId())&&password.equals(list.get(i).getPassword())) {
+				log = list.get(i).getUserCode();
+				System.out.println("로그인 성공");
+				System.out.println("log : " + log);
+			}
+		}
+		if(log==-1) {
+			System.err.println("로그인 실패");
+		}
+	}
+	//로그아웃
+	public void logoutUser() {
 
+		if(log==-1) {
+			System.err.println("로그인 필요");
+		} else {
+			log=-1;
+			System.out.println("로그아웃 성공");
+		}
 	}
 	
+	// 유저 코드 가져오기
 	public User getUserByUserCode(int log) {	// log : userCode
 		for(User user : this.list) {
 			if(user.getUserCode() == log)
@@ -68,6 +110,7 @@ public class UserManager {
 		return (ArrayList<User>) this.list.clone();
 	}
 	
+	// 아이디 중복확인
 	private boolean duplId(String id) {
 		boolean dupl = false;
 		for(User user : this.list) {
@@ -77,7 +120,7 @@ public class UserManager {
 		return dupl;
 	}
 
-	
+	// 코드 랜덤 생성 + 중복확인
 	private int generateRandomCode() {
 		int code = 0;
 		
