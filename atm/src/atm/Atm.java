@@ -98,18 +98,18 @@ public class Atm {
 				accManager.deleteAcc(userManager.getUserByUserCode(userManager.log));
 			else if(select == VIEW_BALANCE)
 				accManager.viewBalance(userManager.getUserByUserCode(userManager.log));
-//			else if(select == INPUT_MONEY)
-//				accManager.inputMoney();
-//			else if(select == OUT_MONEY)
-//				accManager.outMoney();
-//			else if(select == MOVE_MONEY)
-//				accManager.moveMoney();
-//			else if(select == SAVE_FILE)
-//				fileManager.saveFile();
-//			else if(select == LOAD_FILE)
-//				fileManager.loadFile();
-//			else if(select == QUIT)
-//				break;
+			else if(select == INPUT_MONEY)
+				accManager.inputMoney(userManager.getUserByUserCode(userManager.log));
+			else if(select == OUT_MONEY)
+				accManager.outMoney(userManager.getUserByUserCode(userManager.log));
+			else if(select == MOVE_MONEY)
+				accManager.moveMoney(userManager.getUserByUserCode(userManager.log));
+			else if(select == SAVE_FILE)
+				fileManager.saveFile(userManager.getList());
+			else if(select == LOAD_FILE)
+				fileManager.loadFile();
+			else if(select == QUIT)
+				System.out.println("ATM 종료");
 		}
 	}
 

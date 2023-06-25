@@ -12,6 +12,8 @@ public class AccountManager {
 		return instance;
 	}
 	private int idx=-1;
+	private int idx2=-1;
+	// 계좌 생성
 	public void createAccount(User user) {
 		Account acc = null;
 		
@@ -31,15 +33,12 @@ public class AccountManager {
 	public void deleteAcc(User user) {
 		int accNumber = Atm.inputNumber("계좌 번호");
 		int accPassword = Atm.inputNumber("계좌 비밀번호");
-		System.out.println(accNumber);
-		System.out.println(accPassword);
 		
 		for(int i =0; i<list.size(); i++) {
 			if(accNumber==list.get(i).getAccNumber()&&accPassword==list.get(i).getAccPassword()) {
 				idx=i;
 			}
 		}
-		System.out.println(idx);
 		if(idx!=-1) {
 			this.list.remove(idx);
 			ArrayList<Account> accs = user.getAccs();
@@ -51,7 +50,86 @@ public class AccountManager {
 		}
 		
 	}
-
+	// 입금
+	public void inputMoney(User user) {
+		int accNumber = Atm.inputNumber("계좌 번호");
+		
+		for(int i =0; i<list.size(); i++) {
+			if(accNumber==list.get(i).getAccNumber()) {
+				idx=i;
+			}
+		}
+		if(idx!=-1) {
+			System.out.println("입금하실 금액 입력");
+			int inputMoney = Atm.scanner.nextInt();
+			this.list.get(idx).setMoney(+inputMoney);
+			idx=-1;
+		} else {
+			System.err.println("계좌번호 불일치");
+		}
+		
+	}
+	// 출금
+	public void outMoney(User user) {
+		int accNumber = Atm.inputNumber("계좌 번호");
+		
+		for(int i =0; i<list.size(); i++) {
+			if(accNumber==list.get(i).getAccNumber()) {
+				idx=i;
+			}
+		}
+		if(idx!=-1) {
+			System.out.println("출금하실 금액 입력");
+			int outMoney = Atm.scanner.nextInt();
+			if(list.get(idx).getMoney()-outMoney >= 0) {
+				this.list.get(idx).setMoney(list.get(idx).getMoney()-outMoney);
+				idx=-1;
+			} else {
+				System.out.println("잔액 부족");
+			}
+			
+		} else {
+			System.err.println("계좌번호 불일치");
+		}
+	}
+	// 이체
+	public void moveMoney(User user) {
+		int accNumber = Atm.inputNumber("계좌 번호");
+		System.out.println(accNumber);
+		
+		for(int i =0; i<list.size(); i++) {
+			if(accNumber==list.get(i).getAccNumber()) {
+				idx=i;
+			}
+		}
+		int accNumber2 = Atm.inputNumber("이체할 계좌 번호");
+		System.out.println(accNumber2);
+		for(int i =0; i<list.size(); i++) {
+			if(accNumber2==list.get(i).getAccNumber()) {
+				idx2=i;
+			}
+		}
+		System.out.println(idx);
+		System.out.println(idx2);
+		if(idx!=-1 && idx2!=-1) {
+			
+			System.out.println("이체하실 금액 입력");
+			int outMoney = Atm.scanner.nextInt();
+			if(list.get(idx).getMoney()-outMoney >= 0) {
+				this.list.get(idx).setMoney(list.get(idx).getMoney()-outMoney);
+				this.list.get(idx2).setMoney(list.get(idx2).getMoney()+outMoney);
+				idx=-1;
+				idx=-2;
+			} else {
+				System.out.println("잔액 부족");
+			}
+			
+		} else {
+			System.err.println("계좌번호 불일치");
+		}
+	}
+	
+	// 계좌 조회
 	public void viewBalance(User user) {
 		System.out.println("------------------");
 		System.out.println("계좌 조회");
